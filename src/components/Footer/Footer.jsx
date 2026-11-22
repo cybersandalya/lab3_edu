@@ -1,4 +1,4 @@
-import Link from '../../router/Link.jsx';
+import { Link } from 'react-router-dom';
 import { navigation } from '../../data/navigation.js';
 import { contacts } from '../../data/content.js';
 import Logo from '../Logo/Logo.jsx';

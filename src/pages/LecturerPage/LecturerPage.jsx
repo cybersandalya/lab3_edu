@@ -1,10 +1,10 @@
 import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import LecturerPhoto from '../../components/LecturerPhoto/LecturerPhoto.jsx';
 import Accordion from '../../components/Accordion/Accordion.jsx';
 import TariffList from '../../components/TariffList/TariffList.jsx';
 import BookingForm from '../../components/BookingForm/BookingForm.jsx';
 import Button from '../../components/Button/Button.jsx';
-import Link from '../../router/Link.jsx';
 import NotFoundPage from '../NotFoundPage/NotFoundPage.jsx';
 import useDocumentTitle from '../../hooks/useDocumentTitle.js';
 import { lecturers } from '../../data/lecturers.js';
@@ -16,7 +16,9 @@ function scrollToBooking() {
   document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' });
 }
 
-export default function LecturerPage({ id }) {
+export default function LecturerPage() {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const lecturer = lecturers.find((l) => l.id === id);
   const [tariffIndex, setTariffIndex] = useState(0);
 
@@ -33,9 +35,9 @@ export default function LecturerPage({ id }) {
 
   return (
     <>
-      <Link to="/lecturers" className="back-link">
+      <button type="button" className="back-link" onClick={() => navigate('/lecturers')}>
         ← Все лекторы
-      </Link>
+      </button>
 
       {/* Фрейм «Лекторы» 1058×525: фото слева, блок «ФИО преподавателя» справа */}
       <section className="frame frame--narrow lecturer-profile">

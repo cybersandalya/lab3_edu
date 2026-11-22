@@ -1,4 +1,4 @@
-import Link from '../../router/Link.jsx';
+import { Link } from 'react-router-dom';
 import Button from '../Button/Button.jsx';
 import LecturerPhoto from '../LecturerPhoto/LecturerPhoto.jsx';
 import { capitalize, formatPrice, plural } from '../../utils/format.js';

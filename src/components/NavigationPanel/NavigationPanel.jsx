@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import Link from '../../router/Link.jsx';
-import { useLocation } from '../../router/router.js';
+import { NavLink, useLocation } from 'react-router-dom';
 import { navigation } from '../../data/navigation.js';
 import Logo from '../Logo/Logo.jsx';
 import Button from '../Button/Button.jsx';
@@ -43,16 +42,15 @@ export default function NavigationPanel({ items = navigation }) {
           aria-label="Основное меню"
         >
           {items.map((item) => (
-            <Link
+            <NavLink
               key={item.to}
               to={item.to}
-              exact={item.exact}
-              className="nav-panel__link"
-              activeClassName="nav-panel__link--active"
+              end={item.exact}
+              className={({ isActive }) => isActive ? 'nav-panel__link nav-panel__link--active' : 'nav-panel__link'}
               onClick={item.to === '/' ? handleHomeClick : undefined}
             >
               {item.label}
-            </Link>
+            </NavLink>
           ))}
         </nav>
 

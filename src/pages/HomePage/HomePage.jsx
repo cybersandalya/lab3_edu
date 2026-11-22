@@ -3,7 +3,7 @@ import HeroPhoto from '../../components/HeroPhoto/HeroPhoto.jsx';
 import LecturerCard from '../../components/LecturerCard/LecturerCard.jsx';
 import FeatureGrid from '../../components/FeatureGrid/FeatureGrid.jsx';
 import CallToAction from '../../components/CallToAction/CallToAction.jsx';
-import Link from '../../router/Link.jsx';
+import { Link } from 'react-router-dom';
 import useDocumentTitle from '../../hooks/useDocumentTitle.js';
 import { lecturers } from '../../data/lecturers.js';
 import { steps } from '../../data/content.js';

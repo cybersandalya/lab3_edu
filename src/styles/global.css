@@ -150,9 +150,13 @@ textarea {
 .back-link {
   width: min(var(--narrow-width), 100% - 32px);
   margin: 0 auto;
+  padding: 0;
+  border: 0;
+  background: none;
   color: var(--color-accent);
   font-weight: 600;
-  text-decoration: none;
+  text-align: left;
+  cursor: pointer;
 }
 
 .back-link:hover {

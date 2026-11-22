@@ -1,4 +1,4 @@
-import Link from '../../router/Link.jsx';
+import { Link } from 'react-router-dom';
 import './Button.css';
 
 /*

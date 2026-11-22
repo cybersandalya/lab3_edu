@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import LecturerCard from '../../components/LecturerCard/LecturerCard.jsx';
 import Button from '../../components/Button/Button.jsx';
 import useDocumentTitle from '../../hooks/useDocumentTitle.js';
 import useLocalStorage from '../../hooks/useLocalStorage.js';
-import { useLocation } from '../../router/router.js';
 import { lecturers } from '../../data/lecturers.js';
 import { SORT_OPTIONS, filterLecturers, sortLecturers } from '../../utils/lecturers.js';
 import { plural } from '../../utils/format.js';
@@ -13,7 +13,7 @@ export default function LecturersPage() {
   useDocumentTitle('Лекторы — Учебная платформа');
 
   // ?q= приходит из «Направлений» на главной
-  const { query } = useLocation();
+  const [query] = useSearchParams();
   const urlQuery = query.get('q') ?? '';
   const [search, setSearch] = useState(urlQuery);
   const [lastUrlQuery, setLastUrlQuery] = useState(urlQuery);

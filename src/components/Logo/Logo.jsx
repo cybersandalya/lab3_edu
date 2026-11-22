@@ -1,8 +1,9 @@
+import { Link } from 'react-router-dom';
 import './Logo.css';
 
 export default function Logo({ onClick }) {
   return (
-    <a href="#/" className="logo" aria-label="Учебная платформа — на главную" onClick={onClick}>
+    <Link to="/" className="logo" aria-label="Учебная платформа — на главную" onClick={onClick}>
       <svg className="logo__mark" width="36" height="36" viewBox="0 0 36 36" aria-hidden="true">
         <rect width="36" height="36" rx="10" fill="#fff" />
         <path
@@ -18,6 +19,6 @@ export default function Logo({ onClick }) {
         <br />
         платформа
       </span>
-    </a>
+    </Link>
   );
 }
