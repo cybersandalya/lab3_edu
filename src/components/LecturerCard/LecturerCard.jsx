@@ -1,11 +1,12 @@
 import Link from '../../router/Link.jsx';
+import Button from '../Button/Button.jsx';
 import LecturerPhoto from '../LecturerPhoto/LecturerPhoto.jsx';
 import { capitalize, formatPrice, plural } from '../../utils/format.js';
 import { lessonPrice } from '../../utils/lecturers.js';
 import './LecturerCard.css';
 
 // Карточка в списке лекторов (в макете — одиночный блок «ФИО преподавателя»)
-export default function LecturerCard({ lecturer }) {
+export default function LecturerCard({ lecturer, isFavorite, onToggleFavorite }) {
   const { id, fullName, degree, experienceYears, disciplines } = lecturer;
 
   return (
@@ -28,6 +29,17 @@ export default function LecturerCard({ lecturer }) {
           ))}
         </ul>
         <p className="lecturer-card__price">от {formatPrice(lessonPrice(lecturer))} за занятие</p>
+        {onToggleFavorite && (
+          <Button
+            className="lecturer-card__favorite"
+            aria-label={`Избранное: ${fullName}`}
+            aria-pressed={isFavorite}
+            onClick={() => onToggleFavorite(id)}
+          >
+            <span aria-hidden="true">{isFavorite ? '★' : '☆'}</span>
+            Избранное
+          </Button>
+        )}
       </div>
     </article>
   );

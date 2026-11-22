@@ -79,3 +79,13 @@
   font-weight: 600;
   color: var(--color-accent);
 }
+
+.lecturer-card__favorite {
+  position: relative;
+  z-index: 1;
+  align-self: flex-start;
+}
+
+.lecturer-card__favorite[aria-pressed='true']:not(:hover) {
+  background: var(--color-accent-soft);
+}

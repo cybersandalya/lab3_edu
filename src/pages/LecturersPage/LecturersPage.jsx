@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import LecturerCard from '../../components/LecturerCard/LecturerCard.jsx';
 import Button from '../../components/Button/Button.jsx';
 import useDocumentTitle from '../../hooks/useDocumentTitle.js';
+import useLocalStorage from '../../hooks/useLocalStorage.js';
 import { useLocation } from '../../router/router.js';
 import { lecturers } from '../../data/lecturers.js';
 import { SORT_OPTIONS, filterLecturers, sortLecturers } from '../../utils/lecturers.js';
@@ -17,13 +18,29 @@ export default function LecturersPage() {
   const [search, setSearch] = useState(urlQuery);
   const [lastUrlQuery, setLastUrlQuery] = useState(urlQuery);
   const [sort, setSort] = useState('default');
+  const [favoriteIds, setFavoriteIds] = useLocalStorage('edu-platform:favorite-lecturers', []);
+  const [favoritesOnly, setFavoritesOnly] = useState(false);
 
   if (lastUrlQuery !== urlQuery) {
     setLastUrlQuery(urlQuery);
     setSearch(urlQuery);
   }
 
-  const visible = useMemo(() => sortLecturers(filterLecturers(lecturers, search), sort), [search, sort]);
+  const favorites = Array.isArray(favoriteIds) ? favoriteIds : [];
+  const matching = useMemo(() => sortLecturers(filterLecturers(lecturers, search), sort), [search, sort]);
+  const visible = favoritesOnly
+    ? matching.filter((lecturer) => favorites.includes(lecturer.id))
+    : matching;
+  const emptyMessage = favoritesOnly
+    ? 'Нет избранных лекторов по текущим фильтрам'
+    : `По запросу «${search.trim()}» никого не нашли`;
+
+  function toggleFavorite(id) {
+    setFavoriteIds((storedIds) => {
+      const ids = Array.isArray(storedIds) ? storedIds : [];
+      return ids.includes(id) ? ids.filter((favoriteId) => favoriteId !== id) : [...ids, id];
+    });
+  }
 
   return (
     <section className="frame section">
@@ -55,22 +72,39 @@ export default function LecturersPage() {
             ))}
           </select>
         </label>
+        <Button
+          variant={favoritesOnly ? 'primary' : 'outline'}
+          aria-pressed={favoritesOnly}
+          onClick={() => setFavoritesOnly((enabled) => !enabled)}
+        >
+          Только избранные
+        </Button>
       </div>
 
       <p className="toolbar__count" aria-live="polite">
         {visible.length > 0
           ? `Найдено ${visible.length} ${plural(visible.length, ['лектор', 'лектора', 'лекторов'])}`
-          : `По запросу «${search.trim()}» никого не нашли`}
+          : emptyMessage}
       </p>
 
       {visible.length > 0 ? (
         <div className="cards-grid">
           {visible.map((lecturer) => (
-            <LecturerCard key={lecturer.id} lecturer={lecturer} />
+            <LecturerCard
+              key={lecturer.id}
+              lecturer={lecturer}
+              isFavorite={favorites.includes(lecturer.id)}
+              onToggleFavorite={toggleFavorite}
+            />
           ))}
         </div>
       ) : (
-        <Button onClick={() => setSearch('')}>Сбросить поиск</Button>
+        <Button onClick={() => {
+          setSearch('');
+          setFavoritesOnly(false);
+        }}>
+          {favoritesOnly ? 'Показать всех лекторов' : 'Сбросить поиск'}
+        </Button>
       )}
     </section>
   );
